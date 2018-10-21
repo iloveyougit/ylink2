@@ -28,34 +28,16 @@ def post_new(request):
             post.published_date = timezone.now()
             post.save()
             l=post.text
-            '''
-            def my_hook(d):
-                if d['status'] == 'finished':
-                    print('Done downloading, now converting ...')
-            '''
+
             ydl_opts = {}
-            
-           
+
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(l, download=False)
                 download_target = ydl.prepare_filename(info)
                 ydl.download([l])
-                
             filepath = download_target
             return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
-        
-        
-        
-            '''pdfImage = FileSaver()
-           # with youtube_dl.YoutubeDL(ydl_opts) as ydl:
-            #    ydl.download([l])
-           
-         
-            local_file = codecs.open(s, "r",encoding='utf-8', errors='ignore')
-            djangofile = File(local_file)
-            pdfImage.myfile.save('new', djangofile)
-            local_file.close()
-           '''
+
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
