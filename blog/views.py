@@ -28,14 +28,13 @@ def post_new(request):
             post.published_date = timezone.now()
             post.save()
             l=post.text
-            
+            '''
             def my_hook(d):
                 if d['status'] == 'finished':
                     print('Done downloading, now converting ...')
-
-            ydl_opts = {
-                        }
-
+            '''
+            ydl_opts = {}
+            
            
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(l, download=False)
