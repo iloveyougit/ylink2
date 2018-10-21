@@ -34,10 +34,6 @@ def post_new(request):
                     print('Done downloading, now converting ...')
 
             ydl_opts = {
-                        #'format': 'bestaudio/best',       
-                        'outtmpl': '%(title)s',        
-                        'noplaylist' : True,        
-                        'progress_hooks': [my_hook],  
                         }
 
            
