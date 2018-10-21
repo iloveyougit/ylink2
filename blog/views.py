@@ -5,6 +5,12 @@ from .models import Post
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm
 import youtube_dl
+from django.core.files import File
+from .models import FileSaver
+import codecs
+from django.views.static import serve
+import os
+
 def post_list(request):
     posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts': posts})
@@ -22,13 +28,45 @@ def post_new(request):
             post.published_date = timezone.now()
             post.save()
             l=post.text
-            ydl_opts = {}
+            
+            def my_hook(d):
+                if d['status'] == 'finished':
+                    print('Done downloading, now converting ...')
+
+            ydl_opts = {
+                        'format': 'bestaudio/best',       
+                        'outtmpl': '%(title)s',        
+                        'noplaylist' : True,        
+                        'progress_hooks': [my_hook],  
+                        }
+
+           
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+                info = ydl.extract_info(l, download=False)
+                download_target = ydl.prepare_filename(info)
                 ydl.download([l])
+                
+            filepath = download_target
+            return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
+        
+        
+        
+            '''pdfImage = FileSaver()
+           # with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+            #    ydl.download([l])
+           
+         
+            local_file = codecs.open(s, "r",encoding='utf-8', errors='ignore')
+            djangofile = File(local_file)
+            pdfImage.myfile.save('new', djangofile)
+            local_file.close()
+           '''
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
     return render(request, 'blog/post_edit.html', {'form': form})
+
+
 
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)

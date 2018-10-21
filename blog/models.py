@@ -17,3 +17,11 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+class FileSaver(models.Model):
+
+    myfile = models.FileField(upload_to="files/")
+
+    class Meta:
+        managed=False
+
