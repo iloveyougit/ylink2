@@ -1,3 +1,4 @@
+ 
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
@@ -31,9 +32,14 @@ def post_new(request):
             post.published_date = timezone.now()
             post.save()
             l=post.text
-            f=post.format
-            
+
             ydl_opts = {}
+           
+           
+            url="youtube-dl --extract-audio --audio-format mp3 "+l
+            command = url
+            call(command.split(), shell=False)
+
             with youtube_dl.YoutubeDL(ydl_opts) as ydl:
                 info = ydl.extract_info(l, download=False)
                 download_target = ydl.prepare_filename(info)
@@ -43,29 +49,18 @@ def post_new(request):
             if (b!="mp4" or b!="mkv"):
                 a=download_target[:-3]
             else:
-                a=download_target[:-4]           
-            if f=="1":
-                url="youtube-dl --extract-audio --audio-format mp3 "+l
-                a+="mp3"
-                ct='audio/mp3'
-            if f=="2":
-                url="youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' "+l
-                a+="mp4"
-                ct='video/mp4'
-            if f=="3":
-                url="youtube-dl "+l
-                a+="mkv"
-                ct='video/mkv'
-            command = url
-            call(command.split(), shell=False)
-            
-
+                a=download_target[:-4]
                 
-            
+            a+="mp3"
             print(a)
             filepath = a
+           # return serve(request, os.path.basename(filepath), os.path.dirname(filepath))
+            
+            '''r = requests.get(path, allow_redirects=True)
+            open('google.mp3', 'wb').write(r.content)
+            '''
             wrapper = FileWrapper(open(filepath, 'rb'))
-            response = HttpResponse(wrapper, content_type=ct)
+            response = HttpResponse(wrapper, content_type='audio/mp3')
             response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filepath)
             response['Content-Length'] = os.path.getsize(filepath)
             return response
