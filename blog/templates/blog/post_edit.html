@@ -1,10 +1,72 @@
-
+<html>
 {% extends 'blog/base.html' %}
+{% load widget_tweaks %}
 {% load crispy_forms_tags %}
-{% block content %}
-    <h1>New post</h1>
-    <form method="POST" class="post-form">{% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
+{% block head %}
+
+<head>
+  <meta charset="utf-8">
+  <title>Y-Link</title>
+  <style>
+
+</style>
+
+</head>
+    {% endblock %}
+    {% block content %}
+<link href="hi.css" rel="stylesheet">
+    <body>
+
+   <div style="font-family: 'Varela Round', serif;font-size:40px;color:white;text-align:center">Y-Link</div>
+    
+    <div class="row">
+        <div class="col-sm-12 col-sm-4">
+            <div class="card features">
+                <div class="card-body">
+                    <div class="media">
+                        
+                            <div class="media-body">
+                            <h4 class="card-title"></h4>
+  
+                    <form id="a" method="POST" class="post-form">{% csrf_token %}
+                    <!--    {{ form|crispy }}
+                    -->
+   <!--                 <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
+  <input type="hidden" id="id" name="id" value=""/>
+    -->
+                {% for field in form.visible_fields %}
+                    <div class="form-group">
+                        <h4> {{ field.label_tag }} </h4>
+                    {% render_field field class="form-control" %}
+                     {% if field.help_text %}
+                        <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                    </div>
+                {% endfor %}
+                       <button type="submit" style="color:#633991;" class="save btn btn-default">Download</button>
+                    </form>
+            <!--        
+        <div class='progress-wrapper'>
+  <div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
+</div>
+<div id="progress-bar-message">Waiting for progress to start...</div>
+-->
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+<!--
+<script type="text/javascript">
+  $(a).click(function() {
+    $.fileDownload($(this).attr('href'), {
+      preparingMessageHtml: "The file download will begin shortly, please wait...",
+      failMessageHtml: "There was a problem generating your report, please try again."
+    });
+    return false; //this is critical to stop the click event which will trigger a normal file download!
+  });
+</script>
+-->
 {% endblock %}
+</body>
+</html>

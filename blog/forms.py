@@ -13,4 +13,6 @@ class PostForm(forms.ModelForm):
     format = forms.ChoiceField(choices=TYPES, required=True )
     class Meta:
         model = Post
-        fields = ('title', 'text','format') 
+        fields = ( 'text','format') 
+        labels = { "text": "Youtube link",
+                  "format":"Format"}        

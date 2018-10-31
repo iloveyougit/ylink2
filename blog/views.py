@@ -14,6 +14,11 @@ from subprocess import call
 import requests
 from wsgiref.util import FileWrapper
 from django.http import HttpResponse
+
+from celery import shared_task
+from celery_progress.backend import ProgressRecorder
+import time
+
 def post_list(request):
     posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
     return render(request, 'blog/post_list.html', {'posts': posts})
@@ -40,10 +45,11 @@ def post_new(request):
                 #ydl.download([url])
             a=download_target
             b=download_target[-3:]
-            if (b!="mp4" or b!="mkv"):
+            if (b=="mp4" or b=="mkv"):
                 a=download_target[:-3]
             else:
                 a=download_target[:-4]           
+                print(a)
             if f=="1":
                 url="youtube-dl --extract-audio --audio-format mp3 "+l
                 a+="mp3"
@@ -68,6 +74,9 @@ def post_new(request):
             response = HttpResponse(wrapper, content_type=ct)
             response['Content-Disposition'] = 'attachment; filename=%s' % os.path.basename(filepath)
             response['Content-Length'] = os.path.getsize(filepath)
+            
+            response['Set-Cookie'] = 'fileDownload=true; Path=/'
+            
             return response
         
             return redirect('post_detail', pk=post.pk)
@@ -76,6 +85,19 @@ def post_new(request):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
+'''
+@shared_task(bind=True)
+def my_task(self, seconds):
+    progress_recorder = ProgressRecorder(self)
+    for i in range(seconds):
+        time.sleep(1)
+        progress_recorder.set_progress(i + 1, seconds)
+    return 'done'
+
+def progress_view(request):
+    result = my_task.delay(10)
+    return render(request, 'blog/post_edit.html', context={'task_id': result.task_id})
+'''
 
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)

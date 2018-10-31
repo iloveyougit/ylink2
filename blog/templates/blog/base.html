@@ -1,23 +1,33 @@
 {% load static %}
 <html>
-    <head>
-        <h1 align="center"> Y-LINK</h1>
-            <!-- Required meta tags -->
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!--<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
--->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="{% static 'css/blog.css' %}">
-        <title>Y-LINK</title>
-    </head>
-<body style="background-color:powderblue;">
-    <div class="page-header" style="background-color:white;">
-    <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus">DOWNLOAD</span></a>
+<link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
 
-        <h1><a href="/">HISTORY</a></h1>
+<script src="blog/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+  
+  <script src="{% static 'jquery.fileDownload.js' %}"></script>
+   
+  <script src="{% static 'vendor/jquery-filedownload/jquery.fileDownload.js' %}"></script>
+  
+
+<link rel="stylesheet" href="{% static 'css/hi.css' %}">
+<link rel="stylesheet" href="{% static 'css/themify-icons.css' %}">
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+<link href="//fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+{% block head %}
+{% endblock %}
+</head>
+<body>
+    <div class="page-header" style="background-color:white;">
+   <!-- <a href="{% url 'blog:post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus">DOWNLOAD</span></a>
+
+    <h1><a href="/">HISTORY</a></h1> -->
     </div>
     <div class="content container">
         <div class="row">
@@ -27,6 +37,9 @@
             </div>
         </div>
     </div>
+    <script src="{% static 'jquery.fileDownload.js' %}"></script>
+   
+  <script src="{% static 'vendor/jquery-filedownload/jquery.fileDownload.js' %}"></script>
 </body>
 
 </html>

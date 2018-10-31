@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'blog',
+    #'celery_progress',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
