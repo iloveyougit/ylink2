@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'blog',
     #'celery_progress',
-    #'widget_tweaks',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
