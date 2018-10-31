@@ -15,9 +15,9 @@ import requests
 from wsgiref.util import FileWrapper
 from django.http import HttpResponse
 
-from celery import shared_task
-from celery_progress.backend import ProgressRecorder
-import time
+#from celery import shared_task
+#from celery_progress.backend import ProgressRecorder
+#import time
 
 def post_list(request):
     posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
