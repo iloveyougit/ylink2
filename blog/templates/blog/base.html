@@ -20,10 +20,18 @@
 <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
 <link href="//fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet">
+<script src="{% static 'celery_progress/celery_progress.js' %}"></script>
 {% block head %}
 {% endblock %}
 </head>
 <body>
+  <script>
+  // vanilla JS version
+var progressUrl = "{% url 'celery_progress:task_status' 10 %}";
+document.addEventListener("DOMContentLoaded", function () {
+  CeleryProgressBar.initProgressBar(progressUrl);
+});
+  </script>
     <div class="page-header" style="background-color:white;">
    <!-- <a href="{% url 'blog:post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus">DOWNLOAD</span></a>
 
@@ -40,6 +48,7 @@
     <script src="{% static 'jquery.fileDownload.js' %}"></script>
    
   <script src="{% static 'vendor/jquery-filedownload/jquery.fileDownload.js' %}"></script>
+
 </body>
 
 </html>

@@ -15,8 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include,path
-
+from django.conf.urls import url
 urlpatterns = [
+    url(r'^celery-progress/', include('celery_progress.urls')), 
     path('polls/', include('polls.urls')),
     path('admin/', admin.site.urls),
     path('', include('blog.urls')),

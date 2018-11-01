@@ -15,9 +15,9 @@ import requests
 from wsgiref.util import FileWrapper
 from django.http import HttpResponse
 
-#from celery import shared_task
-#from celery_progress.backend import ProgressRecorder
-#import time
+from celery import shared_task
+from celery_progress.backend import ProgressRecorder
+import time
 
 def post_list(request):
     posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
@@ -85,7 +85,7 @@ def post_new(request):
     return render(request, 'blog/post_edit.html', {'form': form})
 
 
-'''
+
 @shared_task(bind=True)
 def my_task(self, seconds):
     progress_recorder = ProgressRecorder(self)
@@ -97,7 +97,7 @@ def my_task(self, seconds):
 def progress_view(request):
     result = my_task.delay(10)
     return render(request, 'blog/post_edit.html', context={'task_id': result.task_id})
-'''
+
 
 def post_edit(request, pk):
     post = get_object_or_404(Post, pk=pk)
