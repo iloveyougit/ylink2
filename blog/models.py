@@ -10,6 +10,15 @@ TYPES = (
 )
 #class Format(models.Model):
 #    name = models.CharField(max_length=3,choices=TYPES)
+
+
+class views(models.Model):
+    k = models.PositiveIntegerField(default = 0)
+    
+    
+    
+    
+    
 class Post(models.Model):
     #author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)

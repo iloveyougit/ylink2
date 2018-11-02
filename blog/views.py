@@ -1,7 +1,7 @@
 from django.shortcuts import redirect
 from django.shortcuts import render
 from django.utils import timezone
-from .models import Post
+from .models import Post,views
 from django.shortcuts import render, get_object_or_404
 from .forms import PostForm
 import youtube_dl
@@ -18,6 +18,7 @@ from django.http import HttpResponse
 from celery import shared_task
 from celery_progress.backend import ProgressRecorder
 import time
+from django.shortcuts import get_object_or_404
 
 def post_list(request):
     posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
@@ -28,6 +29,7 @@ def post_detail(request, pk):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 def post_new(request):
+    
     if request.method == "POST":
         form = PostForm(request.POST)
         if form.is_valid():
@@ -71,13 +73,16 @@ def post_new(request):
                 ct='video/mp4'
 
             if f=="3":
-                url="youtube-dl "+l
-                a+="mkv"
+                url="youtube-dl -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4 "+l
+                a+="mp4"
                 ct='video/mkv'
                 command = url
                 call(command.split(), shell=False)
             
-
+            v = get_object_or_404(views,pk=1)
+            v.k+=1
+            v.save()
+            v = v.k
                 
             
             print(a)
@@ -94,7 +99,7 @@ def post_new(request):
             return redirect('post_detail', pk=post.pk)
     else:
         form = PostForm()
-    return render(request, 'blog/post_edit.html', {'form': form})
+    return render(request, 'blog/post_edit.html', {'form': form,'page_views':v})
 
 
 
