@@ -29,6 +29,10 @@ def post_detail(request, pk):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 def post_new(request):
+    v = get_object_or_404(views,pk=1)
+    v.k+=1
+    v.save()
+    v = v.k
     
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -79,10 +83,7 @@ def post_new(request):
                 command = url
                 call(command.split(), shell=False)
             
-            v = get_object_or_404(views,pk=1)
-            v.k+=1
-            v.save()
-            v = v.k
+
                 
             
             print(a)
