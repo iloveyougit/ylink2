@@ -44,26 +44,38 @@ def post_new(request):
                 download_target = ydl.prepare_filename(info)
                 #ydl.download([url])
             a=download_target
+            print(a)
             b=download_target[-3:]
+            print(b)
+            
             if (b=="mp4" or b=="mkv"):
                 a=download_target[:-3]
-            else:
-                a=download_target[:-4]           
+                print(a)
+            if (b=="webm"):
+                a=download_target[:-4] 
+                print("else",a)
                 print(a)
             if f=="1":
                 url="youtube-dl --extract-audio --audio-format mp3 "+l
                 a+="mp3"
                 ct='audio/mp3'
+                command = url
+                call(command.split(), shell=False)
             if f=="2":
-                url="youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4' "+l
+                url="youtube-dl -f bestvideo[ext=mp4]+bestaudio[ext=m4a]/mp4 "+l
+                command = url
+                call(command.split(), shell=False)                
+                #url="youtube-dl "+l
                 a+="mp4"
+                print("f=2 mp4 video",a)
                 ct='video/mp4'
+
             if f=="3":
                 url="youtube-dl "+l
                 a+="mkv"
                 ct='video/mkv'
-            command = url
-            call(command.split(), shell=False)
+                command = url
+                call(command.split(), shell=False)
             
 
                 
