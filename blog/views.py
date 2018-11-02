@@ -18,7 +18,7 @@ from django.http import HttpResponse
 from celery import shared_task
 from celery_progress.backend import ProgressRecorder
 import time
-from django.shortcuts import get_object_or_404
+
 
 def post_list(request):
     posts=Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
@@ -29,7 +29,6 @@ def post_detail(request, pk):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 def post_new(request):
-    
     v = views.objects.get(pk=1)
     v.k+=1
     v.save()
