@@ -2,6 +2,7 @@ from django import forms
 
 from .models import Post
 
+from django.core.validators import MinValueValidator
 TYPES = (  
     ('1','mp3'),
     ('2','mp4'),
@@ -16,3 +17,14 @@ class PostForm(forms.ModelForm):
         fields = ( 'text','format') 
         labels = { "text": "Youtube link",
                   "format":"Format"}        
+
+
+
+class GenerateRandomUserForm(forms.Form):
+    total_user = forms.IntegerField(
+        #label='Number of users',
+        required=False,
+        validators=[
+            MinValueValidator(10)
+        ]
+    ) 

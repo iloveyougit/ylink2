@@ -40,8 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'blog',
-    #'celery_progress',
+  #  'celery_progress',
     'widget_tweaks',
+    'myapp',
 
 ]
 
@@ -129,3 +130,9 @@ MEDIA_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+CELERY_BROKER_URL = 'amqp://ankith:ankith@localhost:5672/testdjango'
+CELERY_RESULT_BACKEND = 'amqp://ankith:ankith@localhost:5672/testdjango'
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'

@@ -14,7 +14,7 @@
 </head>
     {% endblock %}
     {% block content %}
-<link href="hi.css" rel="stylesheet">
+
     <body>
 
    <div style="font-family: 'Varela Round', serif;font-size:40px;color:white;text-align:center">Y-Link</div>
@@ -27,8 +27,15 @@
                         
                             <div class="media-body">
                             <h4 class="card-title"></h4>
-  
-                    <form id="a" method="POST" class="post-form">{% csrf_token %}
+  <progress id="progress-bar" value="0" max="100" style="display:none; margin-bottom: 1em;"></progress>
+  <!--
+<form id="generate-user-form" action="/generate-user/" method="post">
+    {% csrf_token %}
+ 
+-->
+
+                    <form id="a" method="POST" class="post-form">
+                    {% csrf_token %}
                     <!--    {{ form|crispy }}
                     -->
    <!--                 <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
@@ -38,21 +45,34 @@
                     <div class="form-group">
                         <h4> {{ field.label_tag }} </h4>
                     {% render_field field class="form-control" %}
-                     {% if field.help_text %}
-                        <small class="form-text text-muted">{{ field.help_text }}</small>
-                    {% endif %}
+                        {% if field.help_text %}
+                            <small class="form-text text-muted">{{ field.help_text }}</small>
+                        {% endif %}
                     </div>
                 {% endfor %}
-                       <button type="submit" style="color:#633991;" class="save btn btn-default">Download</button>
+              <button type="submit" style="color:#633991;" class="save btn btn-  default">Download</button>
                     </form>
+                    
+                
+<!--
+                </form>
+     -->               
                     <h3>Total number of people visited {{page_views}}</h3>
-  <!--                  
+   <!--               
         <div class='progress-wrapper'>
   <div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
 </div>
-
-
+-->
+<!--
 <div id="progress-bar-message">Waiting for progress to start...</div>
+
+<script>
+// vanilla JS version
+var progressUrl = "{% url 'celery_progress:task_status' 10 %}";
+document.addEventListener("DOMContentLoaded", function () {
+  CeleryProgressBar.initProgressBar(progressUrl);
+});
+</script>
 -->
                 </div>
             </div>
@@ -70,6 +90,56 @@
   });
 </script>
 -->
+
+
+<script type="text/javascript">
+    var frm = $('#generate-user-form');
+    var pgrbar = $('#progress-bar');
+    frm.submit(function () {
+        $.ajax({
+            type: frm.attr('method'),
+            url: frm.attr('action'),
+            data: frm.serialize(),
+            success: function (data) {
+                if (data.task_id != null) {
+                    get_task_info(data.task_id);
+                }
+            },
+            error: function (data) {
+                console.log("Something went wrong!");
+            }
+        });
+        return false;
+    });
+
+    function get_task_info(task_id) {
+        $.ajax({
+            type: 'get',
+            url: '/get-task-info/',
+            data: {'task_id': task_id},
+            success: function (data) {
+                frm.html('');
+                if (data.state == 'PENDING') {
+                    frm.html('Please wait...');
+                }
+                else if (data.state == 'PROGRESS' || data.state == 'SUCCESS') {
+                    pgrbar.css('display', 'inline');
+                    pgrbar.val(data.result.percent);
+                    frm.html('User created ' + data.result.current + ' out of ' + data.result.total);
+                }
+                if (data.state != 'SUCCESS') {
+                    setTimeout(function () {
+                        get_task_info(task_id)
+                    }, 1000);
+                }
+            },
+            error: function (data) {
+                frm.html("Something went wrong!");
+            }
+        });
+    }
+</script>
+
 {% endblock %}
 </body>
 </html>
