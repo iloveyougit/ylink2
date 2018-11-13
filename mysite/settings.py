@@ -39,10 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
    # 'crispy_forms',
-    'blog',
+  #  'blog',
   #  'celery_progress',
   #  'widget_tweaks',
-    'myapp',
+  #  'myapp',
 
 ]
 
