@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-   # 'crispy_forms',
-  #  'blog',
+    'crispy_forms',
+    'blog',
   #  'celery_progress',
-  #  'widget_tweaks',
+    'widget_tweaks',
   #  'myapp',
 
 ]
