@@ -41,7 +41,7 @@ def post_detail(request, pk):
     return render(request, 'blog/post_detail.html', {'post': post})
 
 
-@shared_task
+#@shared_task
 def post_new(request):
     v = views.objects.get(pk=1)
     v.k+=1
@@ -158,7 +158,7 @@ def post_edit(request, pk):
         form = PostForm(instance=post)
     return render(request, 'blog/post_edit.html', {'form': form})
 
-
+'''
 def generate_random_user(request):
     
     if request.method == 'POST':
@@ -261,3 +261,4 @@ def get_task_info(request):
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:
         return HttpResponse('No job id given.')
+'''
