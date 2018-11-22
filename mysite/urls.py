@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import include,path
 from django.conf.urls import url
 
-#from myapp.views import generate_random_user, get_task_info
+from myapp.views import generate_random_user, get_task_info
 
 
 urlpatterns = [

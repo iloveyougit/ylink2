@@ -28,18 +28,14 @@
                             <div class="media-body">
                             <h4 class="card-title"></h4>
   <progress id="progress-bar" value="0" max="100" style="display:none; margin-bottom: 1em;"></progress>
-<!--
+  
 <form id="generate-user-form" action="/generate-user/" method="post">
     {% csrf_token %}
- -->
+ 
 
                     <form id="a" method="POST" class="post-form">
                     {% csrf_token %}
-                    <!--    {{ form|crispy }}
-                    -->
-   <!--                 <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
-  <input type="hidden" id="id" name="id" value=""/>
-    -->
+
                 {% for field in form.visible_fields %}
                     <div class="form-group">
                         <h4> {{ field.label_tag }} </h4>
@@ -51,44 +47,14 @@
                 {% endfor %}
               <button type="submit" style="color:#633991;" class="save btn btn-  default">Download</button>
                     </form>
-                    
+                    </form>
                 
-<!--
-                </form>
--->
-                    <h3>Total number of people visited {{page_views}}</h3>
-   <!--               
-        <div class='progress-wrapper'>
-  <div id='progress-bar' class='progress-bar' style="background-color: #68a9ef; width: 0%;">&nbsp;</div>
-</div>
--->
-<!--
-<div id="progress-bar-message">Waiting for progress to start...</div>
 
-<script>
-// vanilla JS version
-var progressUrl = "{% url 'celery_progress:task_status' 10 %}";
-document.addEventListener("DOMContentLoaded", function () {
-  CeleryProgressBar.initProgressBar(progressUrl);
-});
-</script>
--->
                 </div>
             </div>
         </div>
     </div> 
 </div>
-<!--
-<script type="text/javascript">
-  $(a).click(function() {
-    $.fileDownload($(this).attr('href'), {
-      preparingMessageHtml: "The file download will begin shortly, please wait...",
-      failMessageHtml: "There was a problem generating your report, please try again."
-    });
-    return false; //this is critical to stop the click event which will trigger a normal file download!
-  });
-</script>
--->
 
 
 <script type="text/javascript">

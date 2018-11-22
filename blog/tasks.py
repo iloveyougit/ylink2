@@ -5,6 +5,12 @@ from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 from celery import shared_task, current_task
 
+
+
+
+
+
+
 @shared_task
 def create_random_user_accounts(total_user):
     for i in range(total_user):
@@ -16,3 +22,7 @@ def create_random_user_accounts(total_user):
                                   meta={'current': i, 'total': total_user,
                                         'percent': int((float(i) / total_user) * 100)})
     return {'current': total_user, 'total': total_user, 'percent': 100}
+
+
+
+
